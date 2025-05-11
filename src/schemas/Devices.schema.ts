@@ -6,10 +6,13 @@ export class Device {
     name: string;
 
     @Prop()
-    description: string;
+    brand: string;
 
     @Prop({ required: true })
     state: string;
+
+    @Prop({ default: () => new Date(), immutable: true })
+    creation_time: Date;
 }
 
 export const DeviceSchema = SchemaFactory.createForClass(Device);
