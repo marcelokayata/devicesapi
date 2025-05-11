@@ -20,7 +20,7 @@ export class DevicesService {
   async findOne(id: string) {
     const device = await this.deviceModel.findById(id).exec();
     if (device) return device;
-    return new HttpException('Device not found', 404);
+    throw new HttpException('Device not found', 404);
   }
 
   async update(id: string, updateDeviceDto: UpdateDeviceDto) {
@@ -47,7 +47,7 @@ export class DevicesService {
     const device = await this.deviceModel.findById(id).exec();
 
     if (!device) {
-      throw new BadRequestException('Device not found');
+      throw new HttpException('Device not found', 404);
     }
 
     if (device.state === 'in-use') {
