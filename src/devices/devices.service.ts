@@ -43,7 +43,17 @@ export class DevicesService {
     });
   }
 
-  remove(id: string) {
+  async remove(id: string) {
+    const device = await this.deviceModel.findById(id).exec();
+
+    if (!device) {
+      throw new BadRequestException('Device not found');
+    }
+
+    if (device.state === 'in-use') {
+      throw new BadRequestException('Cannot delete a device that is in use');
+    }
+
     return this.deviceModel.findByIdAndDelete(id);
   }
 }
